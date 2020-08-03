@@ -6,6 +6,12 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 设计器的配置
+ * 特注：activiti由于自动生成的表名全是大写，无法在配置中实现转小写，需要手动配置mysql服务
+ * 用root登录，修改etc/my.cnf，在[mysqld]的节点下面添加一行lower_case_table_names=1  #表名全部为小写，避免出现大小写敏感，重启mysql服务，service mysqld restart 即可
+ * lower_case_table_names = 1  表名存储在磁盘是小写的，但是比较的时候是不区分大小写
+ * lower_case_table_names=0  表名存储为给定的大小和比较是区分大小写的
+ * lower_case_table_names=2, 表名存储为给定的大小写但是比较的时候是小写的
+ * unix下lower_case_table_names默认值为 0 .Windows下默认值是 1 .Mac OS X下默认值是 2
  * @author wangjc
  * @title: ActivitiConfig
  * @projectName wangjc-activiti-design
@@ -14,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ActivitiConfig  implements ProcessEngineConfigurationConfigurer {
-
 
     @Override
     public void configure(SpringProcessEngineConfiguration springProcessEngineConfiguration) {
